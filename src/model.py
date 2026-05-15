@@ -1,5 +1,4 @@
 import torch
-from tqdm import tqdm
 
 class PoissonRegression:
     def __init__(self):
@@ -26,26 +25,26 @@ class PoissonRegression:
         
         return y
 
-    def fit(self, X_train: torch.Tensor, y_train: torch.Tensor, epochs: int):
+    def fit(self, X_train: torch.Tensor, y_train: torch.Tensor, X_val: torch.Tensor, y_val: torch.Tensor, epochs: int):
         # intiate weights
         self.w = torch.rand(X_train.shape[1]) * 2 - 1
 
-        # initiate other variables
+        # initiate loss list
         train_loss = torch.zeros(epochs+1)
         train_loss[0] = self.evaluate(X_train, y_train)
+        val_loss = torch.zeros(epochs+1)
+        val_loss[0] = self.evaluate(X_val, y_val)
 
-        with tqdm(total=epochs, desc="Training Model:") as pbar:
-            # training loop
-            for epoch in range(epochs):
-                # update parameters
-                gradient = X_train.T @ (self.predict(X_train) - y_train)
-                self.w = self.optimizer.update(self.w, gradient)
+        # training loop
+        for epoch in range(epochs):
+            # update parameters
+            gradient = X_train.T @ (self.predict(X_train) - y_train)
+            self.w = self.optimizer.update(self.w, gradient)
 
-                # calculate loss
-                train_loss[epoch+1] = self.evaluate(X_train, y_train)
+            # calculate loss
+            train_loss[epoch+1] = self.evaluate(X_train, y_train)
+            val_loss[epoch+1] = self.evaluate(X_val, y_val)
+            
+            print(f"Epoch: {epoch+1}; Loss: {train_loss[epoch+1]}")
                 
-                print(f"Epoch: {epoch+1}; Loss: {train_loss[epoch+1]}")
-                # update bar
-                pbar.update(1)
-        
-        return train_loss
+        return train_loss, val_loss

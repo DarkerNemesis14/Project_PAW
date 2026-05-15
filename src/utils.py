@@ -1,7 +1,7 @@
 import torch
 
 class GradientDescent:
-    def __init__(self, learning_rate=0.01):
+    def __init__(self, learning_rate=1e-2):
         self.learning_rate = learning_rate
 
     def update(self, w: torch.Tensor, gradient: torch.Tensor):
@@ -12,7 +12,7 @@ class GradientDescent:
 
 
 class Regularizer:
-    def __init__(self, learning_rate=0.01, decay=0.01):
+    def __init__(self, learning_rate=1e-2, decay=0.01):
         self.learning_rate = learning_rate
         self.decay = decay
 
@@ -24,7 +24,7 @@ class Regularizer:
 
 
 class Adam:
-    def __init__(self, learning_rate=0.01, beta1=0.9, beta2=0.999):
+    def __init__(self, learning_rate=1e-2, beta1=0.9, beta2=0.999):
         # initiate variables
         self.learning_rate = learning_rate
         self.beta1 = beta1
@@ -50,7 +50,7 @@ class Adam:
 
 
 class Adamw:
-    def __init__(self, learning_rate=0.01, beta1=0.9, beta2=0.999, decay = 0.01):
+    def __init__(self, learning_rate=1e-2, beta1=0.9, beta2=0.999, decay = 0.01):
         # initiate variables
         self.learning_rate = learning_rate
         self.beta1 = beta1
@@ -77,7 +77,7 @@ class Adamw:
     
 
 class AdamwDecay:
-    def __init__(self, learning_rate=0.01, beta1=0.9, beta2=0.999):
+    def __init__(self, learning_rate=1e-2, beta1=0.9, beta2=0.999):
         # initiate variables
         self.learning_rate = learning_rate
         self.beta1 = beta1
