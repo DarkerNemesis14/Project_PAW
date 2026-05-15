@@ -94,8 +94,8 @@ class AdamwDecay:
         v_hat = self.v / 1 - self.beta2**self.t
 
         # calculate decay
-        gt_hat = (gradient - gradient.mean()) / (gradient.std() + 1e-5)
-        decay = 2 * torch.sigmoid(gt_hat)
+        gt_hat = (torch.abs(gradient) - gradient.mean()) / (gradient.std() + 1e-5)
+        decay = 2 * torch.sigmoid(4*gt_hat)
 
         # update parameters
         w -= self.learning_rate * (m_hat / (torch.sqrt(v_hat) + 1e-5) + decay * w)

@@ -23,18 +23,22 @@ For each dataset, the project:
 
 ## Repository structure
 
-```text
-.
-├── dataset/              # Generated CSV datasets
-├── results/              # Saved metrics and plots
+```
+Project_PAW/
 ├── src/
-│   ├── dataset.py        # Synthetic dataset generation and loading
-│   ├── model.py          # Poisson regression model
-│   └── utils.py          # Optimizers / update rules
-├── generate_dataset.py   # Creates the datasets
-├── generate_graphs.py    # Builds loss graphs from saved results
-├── main.py               # Trains and evaluates all models
-├── requirement.txt       # Python dependencies
+│   ├── dataset.py          # Dataset generation and loading
+│   ├── model.py            # PoissonRegression model (compile, fit, evaluate)
+│   └── utils.py            # Optimizer implementations
+├── dataset/
+│   ├── ds1.csv             # Small dataset (10 features, 1000 samples)
+│   └── ds2.csv             # Large dataset (100 features, 10000 samples)
+├── results/
+│   ├── dataset1_results.txt
+│   └── dataset2_results.txt
+├── generate_dataset.py     # Script to generate synthetic datasets
+├── generate_graphs.py      # Script to plot training/validation loss curves
+├── main.py                 # Main training and evaluation script
+├── requirement.txt
 └── LICENSE
 ```
 
@@ -46,15 +50,18 @@ The code uses:
 - `torch`
 - `matplotlib`
 
-Install them with:
-
-```bash
-pip install pandas torch matplotlib
-```
 
 ## How to run
 
-### 1) Generate the datasets
+### Installation
+
+```bash
+git clone https://github.com/DarkerNemesis14/Project_PAW.git
+cd Project_PAW
+pip install -r requirement.txt
+```
+
+### Generate the datasets
 
 This creates:
 
@@ -65,7 +72,7 @@ This creates:
 python generate_dataset.py
 ```
 
-### 2) Train and evaluate the models
+### Train and evaluate the models
 
 This runs Poisson regression on both datasets and saves test loss plus per-epoch training and validation losses.
 
@@ -73,7 +80,7 @@ This runs Poisson regression on both datasets and saves test loss plus per-epoch
 python main.py
 ```
 
-### 3) Generate the loss graphs
+### Generate the loss graphs
 
 This reads the saved result files and exports PDF plots in `results/`.
 
@@ -95,23 +102,8 @@ After running the scripts, you should see files like:
 The synthetic datasets are generated with random features and Poisson-distributed targets:
 
 - features are sampled from `[-1, 1]`
-- target counts are generated from a Poisson process
-- each CSV contains feature columns (`x1`, `x2`, ...) and a target column `y`
+- target counts are generated from a Poisson distribution
 
-## Model details
-
-The model in `src/model.py` implements Poisson regression with:
-
-- manual weight initialization
-- Poisson log-likelihood style loss
-- prediction via `exp(X @ w)`
-- a training loop that updates weights using the selected optimizer
-
-## Notes
-
-- The repository currently uses a custom training loop rather than a high-level ML framework.
-- The `requirement.txt` file only lists `pandas`, so you may need to install the other dependencies manually.
-- The project is licensed under GPL-3.0.
 
 ## License
 
